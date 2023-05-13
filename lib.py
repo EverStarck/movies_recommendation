@@ -35,20 +35,17 @@ def tmdb_info(movie_id):
 
 def recommend(movie):
     movie = movies[movies['title'] == movie]
-    print("🚀 ~ file: lib.py:36 ~ movie:", movie.iloc[0])
 
     if len(movie) == 0:
         return None
 
     index = movie.index[0]
     distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
-    recommended_movies = {
-        "original": {},
-        "recommended": []
-    }
+    recommended_movies = {}
+
     for i in distances[1:6]:
         movie_id = movies.iloc[i[0]].movie_id
-        recommended_movies["recommended"].append({
+        recommended_movies[int(movie_id)] = ({
             "movie_id": int(movie_id),
             "title": movies.iloc[i[0]].title,
             "vote_average": int(movies.iloc[i[0]].vote_average),
@@ -57,7 +54,7 @@ def recommend(movie):
             "tmdb":tmdb_info(movie_id)
         })
 
-    recommended_movies["original"] = {
+    recommended_movies[int(movie.iloc[0].movie_id)] = {
         "movie_id": int(movie.iloc[0].movie_id),
         "title": movie.iloc[0].title,
         "vote_average": int(movie.iloc[0].vote_average),
