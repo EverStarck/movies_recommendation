@@ -27,7 +27,7 @@ def tmdb_info(movie_id):
             "error": True,
             "message": "Movie not found.",
             "data": {
-                "poster_path": "https://www.movienewz.com/img/films/poster-holder.jpg",
+                "full_path": "https://www.movienewz.com/img/films/poster-holder.jpg",
                 "backdrop_path": "https://www.movienewz.com/img/films/backdrop-holder.jpg"
             }
         }
