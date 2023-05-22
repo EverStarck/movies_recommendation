@@ -6,11 +6,17 @@ from lib import recommend
 @routes.route("/recommend", methods=["GET"])
 def recommends():
     try:
-        movie = request.args.get('movie')
+        movie = request.args.get("movie")
+        only_recommended = request.args.get("recommended")
+        movie = int(movie)
     except:
         return jsonify({"error": True, "message": "Movie not found."}), 400
 
-    res = recommend(movie)
+
+    if only_recommended is not None:
+        only_recommended = True
+
+    res = recommend(movie, only_recommended)
 
     if res is None:
         return jsonify({"error":True, "message": "Movie not found."}), 400

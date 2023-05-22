@@ -44,8 +44,8 @@ def tmdb_info(movie_id):
     }
 
 
-def recommend(movie):
-    movie = movies[movies['title'] == movie]
+def recommend(movie, only_recommended=True):
+    movie = movies[movies["movie_id"] == movie]
 
     if len(movie) == 0:
         return None
@@ -62,7 +62,8 @@ def recommend(movie):
             "vote_average": int(movies.iloc[i[0]].vote_average),
             "vote_count": int(movies.iloc[i[0]].vote_count),
             "tags": movies.iloc[i[0]].tags,
-            "tmdb":tmdb_info(movie_id)
+            "tmdb":tmdb_info(movie_id),
+            "recommended": []
         })
 
     recommended_movies[int(movie.iloc[0].movie_id)] = {
@@ -71,7 +72,10 @@ def recommend(movie):
         "vote_average": int(movie.iloc[0].vote_average),
         "vote_count": int(movie.iloc[0].vote_count),
         "tags": movie.iloc[0].tags,
-        "tmdb": tmdb_info(movie.iloc[0].movie_id),
+        "recommended": [movie_id for movie_id in recommended_movies]
     }
+
+    if not only_recommended:
+        recommended_movies[int(movie.iloc[0].movie_id)]["tmdb"] = tmdb_info(movie.iloc[0].movie_id)
 
     return recommended_movies
