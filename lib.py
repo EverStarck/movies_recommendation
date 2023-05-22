@@ -6,6 +6,17 @@ import pickle
 movies = pickle.load(open('model/movie_list.pkl','rb'))
 similarity = pickle.load(open('model/similarity.pkl','rb'))
 
+def get_movies_list():
+    list = []
+
+    for movie in range(0,len(movies)):
+        list.append({
+            "label": movies.iloc[movie].title,
+            "value": str(movies.iloc[movie].movie_id)
+        })
+
+    return list
+
 
 def tmdb_info(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={os.getenv('TMDB_API')}&language=en-US"
